@@ -12,17 +12,17 @@ public class Main {
         Scanner in = new Scanner(System.in);
         Calc.readPoints(in, points);
 
-        ArrayList<Point> pointsSortedByX = new ArrayList<>(points);
-        pointsSortedByX.sort(Comparator.comparingDouble(Point::getX));
+        ArrayList<Point> xSorted = new ArrayList<>(points);
+        xSorted.sort(Comparator.comparingDouble(Point::getX));
 
-        ArrayList<Point> pointsSortedByY = new ArrayList<>(points);
-        pointsSortedByY.sort(Comparator.comparingDouble(Point::getY));
+        ArrayList<Point> ySorted = new ArrayList<>(points);
+        ySorted.sort(Comparator.comparingDouble(Point::getY));
 
-        UI.writeSolution(shortestSection(pointsSortedByX, pointsSortedByY));
+        UI.writeSolution(shortestSection(xSorted, ySorted));
     }
 
-    private static Section shortestSection(ArrayList<Point> xSorted, ArrayList<Point> ySorted) {
-        if (xSorted.size() == 1) return null;
+    static Section shortestSection(ArrayList<Point> xSorted, ArrayList<Point> ySorted) {
+        if (xSorted.size() <= 1) return null;
         if (xSorted.size() == 2) return new Section(xSorted.get(0), xSorted.get(1));
         if (xSorted.size() == 3) return Calc.naiveFor3(xSorted.get(0), xSorted.get(1), xSorted.get(2));
         else {
@@ -54,6 +54,7 @@ public class Main {
             } else if (min1 == null) min = min2;
             else min = min1;
 
+            assert min != null;
             double actualMinLength = min.length();
 
             double ySortedfirstY = ySorted.get(0).getY();
